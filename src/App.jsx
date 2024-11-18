@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import Options from './components/Options';
+import Feedback from './components/Feedback';
+import Notification from './components/Notification';
+import { Description } from './components/Description';
 
 function App() {
 
@@ -15,7 +17,6 @@ function App() {
       // Reset seçeneği ile tüm durumları sıfırlarız
       const resetFeedback ={ good: 0, neutral: 0, bad: 0 }
       setFeedback(resetFeedback);
-      setLocalStorage(resetFeedback);
 
     } else {
       // Seçilen geri bildirim türüne göre durumu artırıyoruz
@@ -24,7 +25,6 @@ function App() {
         ...prevFeedback,
         [feedbackType]: prevFeedback[feedbackType] + 1,
       };
-      setLocalStorage(updatedFeedback);
       return updatedFeedback;
     });
     }
@@ -35,28 +35,23 @@ function App() {
     ? Math.round((feedback.good / totalFeedback) * 100)
     : 0;
 
-  const setLocalStorage=(data)=>{
-    localStorage.setItem("feedbackData",JSON.stringify(data));
-    }
+    useEffect(() => {
+      localStorage.setItem("feedbackData", JSON.stringify(feedback));
+    }, [feedback]);
 
-  const getLocalStorage=()=>{
-    const localData = localStorage.getItem("feedbackData")
-    if (localData) {
-    setFeedback(JSON.parse(localData));
-    }
-  }
 
   useEffect(() => {
-    getLocalStorage();
+    const localData = localStorage.getItem("feedbackData");
+    if (localData) {
+      setFeedback(JSON.parse(localData));
+    }
   }, []);
+
 
   return (
     <>
-      <div className='description' style={{display:"flex", flexDirection:"column", alignItems:"flex-start"}}>
-        <h1 style={{marginBottom:0}}>Sip Happens Café</h1>
-        <p>Please leave your feedback about our service by selecting one of the options below.</p>
-      </div>
-      <Options onFeedback={updateFeedback}  />
+      <Description></Description>
+      <Feedback onFeedback={updateFeedback}  />
 
       <div className="feedback" style={{display:"flex",alignItems:"flex-start"}}>
         <p className="feedback-text" style={{marginRight:"10px"}}>Good: {feedback.good}</p>
@@ -66,6 +61,26 @@ function App() {
         <p className="feedback-text" style={{marginRight:"10px"}}>Positive: {positiveFeedback}</p>
       </div>
 
+      {totalFeedback === 0 && (
+        <Notification message="No feedback given yet. Please leave feedback!" />
+      )}
+
+      {totalFeedback > 0 && (
+        <button
+          onClick={() => updateFeedback("reset")}
+          style={{
+            marginTop: "10px",
+            backgroundColor: "#f44336",
+            color: "white",
+            border: "none",
+            padding: "10px 20px",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          Reset
+        </button>)
+      }
     </>
   )
 }

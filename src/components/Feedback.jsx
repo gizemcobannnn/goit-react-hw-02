@@ -1,5 +1,5 @@
 // eslint-disable-next-line react/prop-types
-function Options({ onFeedback }) {
+function Feedback({ onFeedback }) {
     return (
       <div className="options" style={{display:"flex",alignItems:"flex-start"}}>
         <button className="count-buttons" id="good" onClick={() => onFeedback("good")}>Good</button>
@@ -11,4 +11,4 @@ function Options({ onFeedback }) {
     );
   }
   
-  export default Options;
+  export default Feedback;
