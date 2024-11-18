@@ -3,6 +3,7 @@ import './App.css'
 import Feedback from './components/Feedback';
 import Notification from './components/Notification';
 import { Description } from './components/Description';
+import Options from './components/Options';
 
 function App() {
 
@@ -33,7 +34,7 @@ function App() {
   const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
   const positiveFeedback = totalFeedback
     ? Math.round((feedback.good / totalFeedback) * 100)
-    : 0;
+    : 0 ;
 
     useEffect(() => {
       localStorage.setItem("feedbackData", JSON.stringify(feedback));
@@ -51,15 +52,8 @@ function App() {
   return (
     <>
       <Description></Description>
-      <Feedback onFeedback={updateFeedback}  />
-
-      <div className="feedback" style={{display:"flex",alignItems:"flex-start"}}>
-        <p className="feedback-text" style={{marginRight:"10px"}}>Good: {feedback.good}</p>
-        <p className="feedback-text" style={{marginRight:"10px"}}>Neutral: {feedback.neutral}</p>
-        <p className="feedback-text" style={{marginRight:"10px"}}>Bad: {feedback.bad}</p>
-        <p className="feedback-text" style={{marginRight:"10px"}}>Total: {totalFeedback}</p>
-        <p className="feedback-text" style={{marginRight:"10px"}}>Positive: {positiveFeedback}</p>
-      </div>
+      <Options onFeedback={updateFeedback}  />
+      <Feedback feedback={feedback} totalFeedback={totalFeedback} positiveFeedback={positiveFeedback}/>
 
       {totalFeedback === 0 && (
         <Notification message="No feedback given yet. Please leave feedback!" />
