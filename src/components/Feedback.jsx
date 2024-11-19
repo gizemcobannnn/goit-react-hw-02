@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
+import Styles from './Feedback.module.css';
 const Feedback = ({feedback,totalFeedback,positiveFeedback}) => {
   return (
-    <div className="feedback" style={{display:"flex",alignItems:"flex-start"}}>
-    <p className="feedback-text" style={{marginRight:"10px"}}>Good: {feedback.good}</p>
-    <p className="feedback-text" style={{marginRight:"10px"}}>Neutral: {feedback.neutral}</p>
-    <p className="feedback-text" style={{marginRight:"10px"}}>Bad: {feedback.bad}</p>
-    <p className="feedback-text" style={{marginRight:"10px"}}>Total: {totalFeedback}</p>
-    <p className="feedback-text" style={{marginRight:"10px"}}>Positive: {positiveFeedback}%</p>
+    <div className={Styles.feedback}>
+    <p className={Styles["feedback-text"]} >Good: {feedback.good}</p>
+    <p className={Styles["feedback-text"]} >Neutral: {feedback.neutral}</p>
+    <p className={Styles["feedback-text"]} >Bad: {feedback.bad}</p>
+    <p className={Styles["feedback-text"]} >Total: {totalFeedback}</p>
+    <p className={Styles["feedback-text"]} >Positive: {positiveFeedback}%</p>
   </div>
   )
 }

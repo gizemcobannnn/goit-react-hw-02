@@ -1,18 +1,9 @@
 import PropTypes from "prop-types";
+import Styles from './Notification.module.css';
 
 const Notification = ({ message }) => {
   return (
-    <div
-      style={{
-        padding: "10px",
-        backgroundColor: "#ffcccb",
-        color: "#333",
-        borderRadius: "5px",
-        textAlign: "center",
-        marginTop: "20px",
-        fontSize: "16px",
-      }}
-    >
+    <div className={Styles.notification}>
       {message}
     </div>
   );

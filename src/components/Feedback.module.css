@@ -1,0 +1,8 @@
+.feedback{
+    display:flex;
+    align-items:flex-start;
+}
+
+.feedback-text{
+    margin-right: 10px;
+}
