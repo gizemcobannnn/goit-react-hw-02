@@ -7,10 +7,11 @@ import Options from './components/Options';
 
 function App() {
 
-  const [feedback, setFeedback] = useState({
-    good: 0,
-    neutral: 0,
-    bad: 0,
+  const [feedback, setFeedback] = useState(() => {
+    const localData = localStorage.getItem("feedbackData");
+    return localData
+      ? JSON.parse(localData)
+      : { good: 0, neutral: 0, bad: 0 }; // Varsayılan değerler
   });
 
   const updateFeedback = (feedbackType) => {
@@ -41,40 +42,33 @@ function App() {
     }, [feedback]);
 
 
-  useEffect(() => {
-    const localData = localStorage.getItem("feedbackData");
-    if (localData) {
-      setFeedback(JSON.parse(localData));
-    }
-  }, []);
-
-
   return (
     <>
       <Description></Description>
       <Options onFeedback={updateFeedback}  />
       <Feedback feedback={feedback} totalFeedback={totalFeedback} positiveFeedback={positiveFeedback}/>
 
-      {totalFeedback === 0 && (
+      {totalFeedback === 0 ? (
         <Notification message="No feedback given yet. Please leave feedback!" />
+      ) : (
+        <>
+          {/* Feedback verildiğinde buton görünür */}
+          <button
+            onClick={() => updateFeedback('reset')}
+            style={{
+              marginTop: '10px',
+              backgroundColor: '#f44336',
+              color: 'white',
+              border: 'none',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+            }}
+          >
+            Reset
+          </button>
+        </>
       )}
-
-      {totalFeedback > 0 && (
-        <button
-          onClick={() => updateFeedback("reset")}
-          style={{
-            marginTop: "10px",
-            backgroundColor: "#f44336",
-            color: "white",
-            border: "none",
-            padding: "10px 20px",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-        >
-          Reset
-        </button>)
-      }
     </>
   )
 }
